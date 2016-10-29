@@ -35,7 +35,7 @@
 		}
 
 		//regex for parsing the string provided
-		const regex = /\(|p\d|\)|~|\^|v|>|=/g;
+		const regex = /\(|p\d+|\)|~|\^|v|>|=/g;
 		var match;
 		//Initialize postfix string
 		var postfix = [];
@@ -78,31 +78,51 @@
 		var length = Object.keys(props).length;
 
 		//Generate each left hand row based on length of propositions
-		//Change prop values to represent these new values
 		for(var i = 0; i < 2**length; i++) {
 			var row = pad((i).toString(2),length);
+			var stack = [];
 			var j = 0
+			//Change prop values to represent these new values
 			for(prop in props) {
-				props[prop] = row[j];
+				props[prop] = Number(row[j]);
 				j++;
 			}
-			console.log(props);
-			
+			//Go through postfix array and do operations
+			for(oper of postfix) {
+				try {
+					//Check if it's an operand
+					if ((/p\d/).test(oper)) {
+						stack.push(props[oper]);
+					} else if (oper === '~') {
+						console.log(stack);
+						stack.push(eval(stack.pop(), null, oper));
+					} else {
+						var second = stack.pop();
+						var first = stack.pop();
+						//evaluate expressions
+						stack.push(eval(first, second, oper));
+					}
+				} catch(e) {
+					alert('Misformed logical statement');
+					return;
+				}
+			}
 		}
 	}
 
 	function eval(p, q, operator) {
+
 		switch(operator) {
 			case '~':
-				break;
+				return Number(!p);
 			case '^':
-				break;
+				return p & q
 			case 'v':
-				break;
+				return p | q
 			case '>':
-				break;
+				return Number(!(p===1 && q===0))
 			case '=':
-				break;
+				return p === q;
 		}	
 	}
 
