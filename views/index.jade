@@ -1,5 +1,15 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  .row 
+    .col-xs-offset-4.col-xs-4 
+      h1= title
+      p Welcome to #{title}
+  .row
+    .input-group.col-xs-offset-4.col-xs-4
+      input#logic-input.form-control
+      button#truthify-button.btn.btn-default Truthify
+  .row
+    table
+block scripts
+  script(src="/javascripts/truthifier.js")
