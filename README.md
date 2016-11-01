@@ -5,3 +5,4 @@ Logical connectives: dsadsa
   2. v: or
   3. >: conditional
   4. =: biconditional
+  5. ~: not
