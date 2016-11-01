@@ -15,6 +15,7 @@
 		});
 	});
 
+	/* Handles all the parsing and generation of the truth table */
 	function generateTable(logicString) {
 		//Don't Accept epty strings
 		if(!logicString) {
@@ -75,8 +76,7 @@
 			alert('Misformed logical statement');
 			return;
 		}
-		console.log(tableData);
-		//sort the keys so that table will look more natural
+		//sort the keys in descending order so that table will look more natural
 		var sortedRowKeys = Object.keys(tableData).sort(function strDes(a, b) {
 			if (a>b) return -1;
 			else if (a<b) return 1;
@@ -110,6 +110,7 @@
 
 	}
 
+	/* Sligt separation of logic, once in postfix, this function employs the algorithm for evaluation */
 	function evaluatePostfix(postfix, props) {
 		var length = Object.keys(props).length;
 		var tableData = {};
@@ -129,7 +130,6 @@
 				if ((/p\d/).test(oper)) {
 					stack.push(props[oper]);
 				} else if (oper === '~') {
-					console.log(stack);
 					stack.push(eval(stack.pop(), null, oper));
 				} else {
 					var second = stack.pop();
@@ -146,6 +146,7 @@
 		return tableData;
 	}
 
+	/* function that returns a results based on operation type */
 	function eval(p, q, operator) {
 		switch(operator) {
 			case '~':
@@ -161,9 +162,76 @@
 		}	
 	}
 
+	/* function that pads binary numbers with 0s */
 	function pad(num, size) {
 	    var s = num+"";
 	    while (s.length < size) s = "0" + s;
 	    return s;
+	}
+
+	/* Algorith for calculatin the frobenius number of a set of numbers 
+	  * Assumes GCD = 1 and list is of positive integers*/
+	function dijkstraFrobenius(nums) {
+		var uniqueNums = new Set(nums);
+		if (!uniqueNums) {
+			alert('invalid input');
+		}
+		var sortedNums = uniqueNums.values().sort(function(a,b) {return a-b});
+		var vector = [];
+		vector.push(0);
+		for(var i = 1; i < sortedNums.length; i++)
+			vector.push(sortedNums[sortedNums.length - 1]);
+		var p = [sortedNums.length - 1];
+		var q = [[0]];
+		var l = [1];
+		var z = [0];
+	}
+
+	function breadthFirst(nums) {
+		var uniqueNums = new Set(nums);
+		if (!uniqueNums) {
+			alert('invalid input');
+		}
+		var sortedNums = Array.from(uniqueNums).sort(function(a,b) {return a-b});
+		var s = [0];
+		console.log(sortedNums);
+		for (var i = 1; i < sortedNums[0]; i++) {
+			console.log(99);
+			s.push(sortedNums[0]*sortedNums[sortedNums.length-1]);
+		}
+		console.log(s);
+		var queue = [];
+		queue[0] = 0;
+		var queueIndex = 0;
+		var queueSize = 1;
+		var p = [];
+		p[0] = sortedNums.length - 1;
+		var amod = [];
+		sortedNums.forEach(function(num) {
+			amod.push(num - (num % sortedNums[0]));
+		});
+		while(queue.length > 0) {
+			var vertex = queue.shift();
+			for (var i = 2; i < p[vertex]; i++) {
+				var u = vertex + amod[i]
+				if(u > sortedNums[0])
+					u = u - sortedNums[0];
+				var weight = s[vertex] + sortedNums[i];
+				console.log(weight);
+				console.log(u);
+				console.log(s[u]);
+				if(weight < s[u]) {
+					s[u] = w;
+					p[u]= i;
+				}
+				if(queue.indexOf(u) !== -1)
+					queue.push(u);
+			}
+		}
+		console.log('sex');
+		console.log(s);
+		return Math.max.apply(null, s) - sortedNums[0];
+
+
 	}
 })();
