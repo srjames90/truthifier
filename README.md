@@ -3,6 +3,6 @@ A truth table generator for for any logical expression with propositional argume
 Logical connectives: dsadsa
   1. ^: and 
   2. v: or
-  3. >: conditional
+  3. \>: conditional
   4. =: biconditional
   5. ~: not
